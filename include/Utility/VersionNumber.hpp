@@ -48,6 +48,8 @@
 #include <iostream>
 #include <string>
 
+#include <boost/config.hpp>
+
 // ////////////////////////////////////////////////////////////////////////////
 
 namespace MLB {
@@ -89,21 +91,68 @@ struct API_UTILITY VersionNumber {
 	VersionNumber &SetToMinimumValue();
 	VersionNumber &SetToMaximumValue();
 
-	int Compare(const VersionNumber &other) const;
+#if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
+	constexpr auto operator <=> (const VersionNumber &other) const = default;
+	constexpr bool operator ==  (const VersionNumber &other) const = default;
+#else
+	constexpr bool operator <  (const VersionNumber &other) const
+	{
+		return(Compare(other) < 0);
+	}
+	constexpr bool operator >  (const VersionNumber &other) const
+	{
+		return(Compare(other) > 0);
+	}
+	constexpr bool operator <= (const VersionNumber &other) const
+	{
+		return(Compare(other) <= 0);
+	}
+	constexpr bool operator >= (const VersionNumber &other) const
+	{
+		return(Compare(other) >= 0);
+	}
+	constexpr bool operator == (const VersionNumber &other) const
+	{
+		return(Compare(other) == 0);
+	}
+	constexpr bool operator != (const VersionNumber &other) const
+	{
+		return(Compare(other) != 0);
+	}
+#endif // #if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
 
-	bool operator <  (const VersionNumber &other) const;
-	bool operator >  (const VersionNumber &other) const;
-	bool operator <= (const VersionNumber &other) const;
-	bool operator >= (const VersionNumber &other) const;
-	bool operator == (const VersionNumber &other) const;
-	bool operator != (const VersionNumber &other) const;
+	constexpr int Compare(const VersionNumber &other) const
+	{
+		return(Compare(*this, other));
+	}
 
 	std::ostream &ToStream(std::ostream &o_str = std::cout) const;
 
 	std::string   ToString() const;
 	std::string  &ToString(std::string &out_string) const;
 
-	static int Compare(const VersionNumber &lhs, const VersionNumber &rhs);
+	static constexpr int Compare(const VersionNumber &lhs,
+		const VersionNumber &rhs)
+	{
+		if (lhs.version_[0] < rhs.version_[0])
+			return(-1);
+		else if (lhs.version_[0] > rhs.version_[0])
+			return(1);
+		else if (lhs.version_[1] < rhs.version_[1])
+			return(-1);
+		else if (lhs.version_[1] > rhs.version_[1])
+			return(1);
+		else if (lhs.version_[2] < rhs.version_[2])
+			return(-1);
+		else if (lhs.version_[2] > rhs.version_[2])
+			return(1);
+		else if (lhs.version_[3] < rhs.version_[3])
+			return(-1);
+		else if (lhs.version_[3] > rhs.version_[3])
+			return(1);
+
+		return(0);
+	}
 
 	static uint32_t IdxToUInt(VersionNumberIndex element_index);
 

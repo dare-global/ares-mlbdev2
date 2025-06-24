@@ -70,6 +70,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZZZ_ResourceLimits", "ZZZ_R
 		{B2168613-5645-4AAE-95E9-FEE22A415C20} = {B2168613-5645-4AAE-95E9-FEE22A415C20}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZZZ_HostName", "ZZZ_HostName\ZZZ_HostName.vcxproj", "{ECBCF6C4-52D6-4BDA-81A2-960D0297C83C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B2168613-5645-4AAE-95E9-FEE22A415C20} = {B2168613-5645-4AAE-95E9-FEE22A415C20}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -190,6 +195,14 @@ Global
 		{4FF62AE4-88CA-430B-956F-F1AFA6615D68}.Release|x64.Build.0 = Release|x64
 		{4FF62AE4-88CA-430B-956F-F1AFA6615D68}.Release|x86.ActiveCfg = Release|Win32
 		{4FF62AE4-88CA-430B-956F-F1AFA6615D68}.Release|x86.Build.0 = Release|Win32
+		{ECBCF6C4-52D6-4BDA-81A2-960D0297C83C}.Debug|x64.ActiveCfg = Debug|x64
+		{ECBCF6C4-52D6-4BDA-81A2-960D0297C83C}.Debug|x64.Build.0 = Debug|x64
+		{ECBCF6C4-52D6-4BDA-81A2-960D0297C83C}.Debug|x86.ActiveCfg = Debug|Win32
+		{ECBCF6C4-52D6-4BDA-81A2-960D0297C83C}.Debug|x86.Build.0 = Debug|Win32
+		{ECBCF6C4-52D6-4BDA-81A2-960D0297C83C}.Release|x64.ActiveCfg = Release|x64
+		{ECBCF6C4-52D6-4BDA-81A2-960D0297C83C}.Release|x64.Build.0 = Release|x64
+		{ECBCF6C4-52D6-4BDA-81A2-960D0297C83C}.Release|x86.ActiveCfg = Release|Win32
+		{ECBCF6C4-52D6-4BDA-81A2-960D0297C83C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

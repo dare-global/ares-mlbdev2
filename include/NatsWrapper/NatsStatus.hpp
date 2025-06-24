@@ -1,0 +1,68 @@
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+// MLB NatsWrapper Library Include File
+// ////////////////////////////////////////////////////////////////////////////
+/*
+   File Name         :  NatsStatus.hpp
+
+   File Description  :  Include file for the NatsStatus support.
+
+   Revision History  :  2024-09-18 --- Creation.
+                           Michael L. Brock
+
+      Copyright Michael L. Brock 2024.
+      Distributed under the Boost Software License, Version 1.0.
+      (See accompanying file LICENSE_1_0.txt or copy at
+      http://www.boost.org/LICENSE_1_0.txt)
+
+*/
+// ////////////////////////////////////////////////////////////////////////////
+
+#ifndef HH__MLB__NatsWrapper__NatsStatus_hpp__HH
+
+#define HH__MLB__NatsWrapper__NatsStatus_hpp__HH 1
+
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+/**
+   \file NatsStatus.hpp
+
+   \brief   Include file for the NatsStatus support.
+*/
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+// Required include files...
+// ////////////////////////////////////////////////////////////////////////////
+
+#include <NatsWrapper/NatsWrapper.hpp>
+
+#include <nats.h>
+
+#include <set>
+#include <utility>
+
+// ////////////////////////////////////////////////////////////////////////////
+
+namespace MLB {
+
+namespace NatsWrapper {
+
+// ////////////////////////////////////////////////////////////////////////////
+const std::set<natsStatus>        &GetNatsStatusSet();
+std::pair<natsStatus, natsStatus>  GetNatsStatusRange();
+natsStatus                         GetNatsStatusMin();
+natsStatus                         GetNatsStatusMax();
+bool                               IsValidNatsStatus(natsStatus nats_code);
+natsStatus                         CheckIsValidNatsStatus(natsStatus nats_code);
+const char                        *GetNatsStatusText(natsStatus nats_code);
+const char                        *GetNatsStatusTextPtr(natsStatus nats_code);
+// ////////////////////////////////////////////////////////////////////////////
+
+} // namespace NatsWrapper
+
+} // namespace MLB
+
+#endif // #ifndef HH__MLB__NatsWrapper__NatsStatus_hpp__HH
+

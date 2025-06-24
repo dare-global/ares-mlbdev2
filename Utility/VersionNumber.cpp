@@ -178,15 +178,9 @@ VersionNumber &VersionNumber::SetToMaximumValue()
 }
 // ////////////////////////////////////////////////////////////////////////////
 
+#if 0
 // ////////////////////////////////////////////////////////////////////////////
-int VersionNumber::Compare(const VersionNumber &other) const
-{
-	return(Compare(*this, other));
-}
-// ////////////////////////////////////////////////////////////////////////////
-
-// ////////////////////////////////////////////////////////////////////////////
-bool VersionNumber::operator < (const VersionNumber &other) const
+constexpr bool VersionNumber::operator < (const VersionNumber &other) const
 {
 // return(::memcmp(version_, other.version_, sizeof(version_)) < 0);
 
@@ -195,7 +189,7 @@ bool VersionNumber::operator < (const VersionNumber &other) const
 // ////////////////////////////////////////////////////////////////////////////
 
 // ////////////////////////////////////////////////////////////////////////////
-bool VersionNumber::operator > (const VersionNumber &other) const
+constexpr bool VersionNumber::operator > (const VersionNumber &other) const
 {
 // return(::memcmp(version_, other.version_, sizeof(version_)) > 0);
 
@@ -204,7 +198,7 @@ bool VersionNumber::operator > (const VersionNumber &other) const
 // ////////////////////////////////////////////////////////////////////////////
 
 // ////////////////////////////////////////////////////////////////////////////
-bool VersionNumber::operator <= (const VersionNumber &other) const
+constexpr bool VersionNumber::operator <= (const VersionNumber &other) const
 {
 // return(::memcmp(version_, other.version_, sizeof(version_)) <= 0);
 
@@ -213,7 +207,7 @@ bool VersionNumber::operator <= (const VersionNumber &other) const
 // ////////////////////////////////////////////////////////////////////////////
 
 // ////////////////////////////////////////////////////////////////////////////
-bool VersionNumber::operator >= (const VersionNumber &other) const
+constexpr bool VersionNumber::operator >= (const VersionNumber &other) const
 {
 // return(::memcmp(version_, other.version_, sizeof(version_)) >= 0);
 
@@ -222,7 +216,7 @@ bool VersionNumber::operator >= (const VersionNumber &other) const
 // ////////////////////////////////////////////////////////////////////////////
 
 // ////////////////////////////////////////////////////////////////////////////
-bool VersionNumber::operator == (const VersionNumber &other) const
+constexpr bool VersionNumber::operator == (const VersionNumber &other) const
 {
 // return(::memcmp(version_, other.version_, sizeof(version_)) == 0);
 
@@ -231,13 +225,21 @@ bool VersionNumber::operator == (const VersionNumber &other) const
 // ////////////////////////////////////////////////////////////////////////////
 
 // ////////////////////////////////////////////////////////////////////////////
-bool VersionNumber::operator != (const VersionNumber &other) const
+constexpr bool VersionNumber::operator != (const VersionNumber &other) const
 {
 // return(::memcmp(version_, other.version_, sizeof(version_)) != 0);
 
 	return(Compare(other) != 0);
 }
 // ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
+constexpr int VersionNumber::Compare(const VersionNumber &other) const
+{
+	return(Compare(*this, other));
+}
+// ////////////////////////////////////////////////////////////////////////////
+#endif // #if 0
 
 // ////////////////////////////////////////////////////////////////////////////
 std::ostream &VersionNumber::ToStream(std::ostream &o_str) const
@@ -275,9 +277,12 @@ std::string &VersionNumber::ToString(std::string &out_string) const
 }
 // ////////////////////////////////////////////////////////////////////////////
 
+#if 0
 // ////////////////////////////////////////////////////////////////////////////
-int VersionNumber::Compare(const VersionNumber &lhs, const VersionNumber &rhs)
+constexpr int VersionNumber::Compare(const VersionNumber &lhs,
+	const VersionNumber &rhs)
 {
+/*
 	int64_t cmp;
 
 	for (std::size_t element_idx = 0; element_idx < VersionElementCount;
@@ -289,8 +294,28 @@ int VersionNumber::Compare(const VersionNumber &lhs, const VersionNumber &rhs)
 	}
 
 	return(0);
+*/
+	if (lhs.version_[0] < rhs.version_[0])
+		return(-1);
+	else if (lhs.version_[0] > rhs.version_[0])
+		return(1);
+	else if (lhs.version_[1] < rhs.version_[1])
+		return(-1);
+	else if (lhs.version_[1] > rhs.version_[1])
+		return(1);
+	else if (lhs.version_[2] < rhs.version_[2])
+		return(-1);
+	else if (lhs.version_[2] > rhs.version_[2])
+		return(1);
+	else if (lhs.version_[3] < rhs.version_[3])
+		return(-1);
+	else if (lhs.version_[3] > rhs.version_[3])
+		return(1);
+
+	return(0);
 }
 // ////////////////////////////////////////////////////////////////////////////
+#endif // #if 0
 
 // ////////////////////////////////////////////////////////////////////////////
 uint32_t VersionNumber::IdxToUInt(VersionNumberIndex element_index)

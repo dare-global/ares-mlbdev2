@@ -1,0 +1,83 @@
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+// MLB NatsWrapper Library Include File
+// ////////////////////////////////////////////////////////////////////////////
+/*
+   File Name         :  NatsMsg.hpp
+
+   File Description  :  Include file for the NatsMsg class.
+
+   Revision History  :  2024-08-17 --- Creation.
+                           Michael L. Brock
+
+      Copyright Michael L. Brock 2024.
+      Distributed under the Boost Software License, Version 1.0.
+      (See accompanying file LICENSE_1_0.txt or copy at
+      http://www.boost.org/LICENSE_1_0.txt)
+
+*/
+// ////////////////////////////////////////////////////////////////////////////
+
+#ifndef HH__MLB__NatsWrapper__NatsMsg_hpp__HH
+
+#define HH__MLB__NatsWrapper__NatsMsg_hpp__HH 1
+
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+/**
+   \file NatsMsg.hpp
+
+   \brief   Main include file for the NatsMsg class.
+*/
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+// Required include files...
+// ////////////////////////////////////////////////////////////////////////////
+
+#include <NatsWrapper/NatsSubscription.hpp>
+
+#include <string>
+
+// ////////////////////////////////////////////////////////////////////////////
+
+namespace MLB {
+
+namespace NatsWrapper {
+
+// ////////////////////////////////////////////////////////////////////////////
+class NatsMsg
+{
+	NatsMsg(natsMsg *nats_msg);
+
+	friend NatsMsg NatsSubscription::NextMsg(int64_t time_out);
+
+public:
+	NatsMsg(NatsSubscription &nats_subs, int64_t time_out);
+
+	virtual ~NatsMsg();
+
+	const char *GetSubject() const;
+	const char *GetReply() const;
+	const char *GetData() const;
+	int         GetDataLength() const;
+
+	bool        IsNoResponders() const;
+
+	      natsMsg    *GetPtr();
+	const natsMsg    *GetPtr() const;
+	      natsMsg    *GetPtrChecked();
+	const natsMsg    *GetPtrChecked() const;
+
+private:
+	std::shared_ptr<natsMsg> nats_msg_sptr_;
+};
+// ////////////////////////////////////////////////////////////////////////////
+
+} // namespace NatsWrapper
+
+} // namespace MLB
+
+#endif // #ifndef HH__MLB__NatsWrapper__NatsMsg_hpp__HH
+

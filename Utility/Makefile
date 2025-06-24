@@ -27,8 +27,7 @@ TARGET_LIBS	=	libUtility.a
 
 TARGET_BINS	=
 
-PENDING_SRCS	=	\
-			LogHandlerFileMMap.cpp
+PENDING_SRCS	=
 
 SRCS		=	\
 			CheckCmdLineArgs.cpp		\
@@ -44,14 +43,6 @@ SRCS		=	\
 			HostName.cpp			\
 			IoCharInfo.cpp			\
 			Ita2ToAscii.cpp			\
-			LogEmitControl.cpp		\
-			LogHandler.cpp			\
-			LogHandlerConsole.cpp		\
-			LogHandlerFile.cpp		\
-			LogHandlerFileBase.cpp		\
-			LogLevel.cpp			\
-			LogManager.cpp			\
-			LogTestSupport.cpp		\
 			MapUtf8ToAscii.cpp		\
 			MemICmp.cpp			\
 			nstrcat.cpp			\
@@ -59,6 +50,8 @@ SRCS		=	\
 			PageSize.cpp			\
 			ParseCfgFile.cpp		\
 			ParseCfgItem.cpp		\
+			ParseCsv.cpp			\
+			ParseLine.cpp			\
 			PathMetaChar.cpp		\
 			PathNameCanonicalizeSlashes.cpp	\
 			PathNameGetDirectory.cpp	\
@@ -96,8 +89,10 @@ SRCS		=	\
 			ToStreamSystemError.cpp		\
 			ToStringErrno.cpp		\
 			ToStringSystemError.cpp		\
+			UniqueId.cpp			\
 			UserName.cpp			\
-			VersionNumber.cpp
+			VersionNumber.cpp		\
+			XLateEscapeChars.cpp
 
 #LINK_STATIC	=	${LINK_STATIC_BIN}
 

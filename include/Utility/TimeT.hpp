@@ -43,6 +43,8 @@
 #include <ostream>
 #include <string>
 
+#include <boost/config.hpp>
+
 // ////////////////////////////////////////////////////////////////////////////
 
 namespace MLB {
@@ -64,14 +66,40 @@ struct API_UTILITY TimeT {
 
 	~TimeT();
 
-	bool operator <  (const TimeT &other) const;
-	bool operator >  (const TimeT &other) const;
-	bool operator <= (const TimeT &other) const;
-	bool operator >= (const TimeT &other) const;
-	bool operator == (const TimeT &other) const;
-	bool operator != (const TimeT &other) const;
+#if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
+	constexpr auto operator <=> (const TimeT &other) const = default;
+	constexpr bool operator ==  (const TimeT &other) const = default;
+#else
+	constexpr bool operator <  (const TimeT &other) const
+	{
+		return(Compare(*this, other) <  0);
+	}
+	constexpr bool operator >  (const TimeT &other) const
+	{
+		return(Compare(*this, other) >  0);
+	}
+	constexpr bool operator <= (const TimeT &other) const
+	{
+		return(Compare(*this, other) <= 0);
+	}
+	constexpr bool operator >= (const TimeT &other) const
+	{
+		return(Compare(*this, other) >= 0);
+	}
+	constexpr bool operator == (const TimeT &other) const
+	{
+		return(Compare(*this, other) == 0);
+	}
+	constexpr bool operator != (const TimeT &other) const
+	{
+		return(Compare(*this, other) != 0);
+	}
+#endif // #if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
 
-	int  Compare(const TimeT &other) const;
+	constexpr int Compare(const TimeT &other) const
+	{
+		return(Compare(*this, other));
+	}
 
 	TimeT &SetToNow();
 	TimeT &SetToMinimumValue();
@@ -121,8 +149,17 @@ struct API_UTILITY TimeT {
 
 	static TimeT Now();
 
+	static constexpr int Compare(const TimeT &lhs, const TimeT &rhs)
+	{
+		return(
+			((int) (lhs.datum_  > rhs.datum_)  ?  1 :
+					((lhs.datum_  < rhs.datum_)  ? -1 : 0)));
+	}
 	//	Used to support a C-style interface...
-	static int   Compare(const TimeT *lhs, const TimeT *rhs);
+	static constexpr int Compare(const TimeT *lhs, const TimeT *rhs)
+	{
+		return(Compare(*lhs, *rhs));
+	}
 
 	static TimeT GetMinimumValue();
 	static TimeT GetMaximumValue();

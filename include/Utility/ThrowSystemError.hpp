@@ -50,10 +50,12 @@ namespace MLB {
 namespace Utility {
 
 // ////////////////////////////////////////////////////////////////////////////
-API_UTILITY void ThrowSystemError(int err_code, const std::string &err_text);
-API_UTILITY void ThrowSystemError(int err_code, const char *err_text = nullptr);
-API_UTILITY void ThrowSystemError(const std::string &err_text);
-API_UTILITY void ThrowSystemError(const char *err_text = nullptr);
+API_UTILITY [[noreturn]] void ThrowSystemError(int err_code,
+	const std::string &err_text);
+API_UTILITY [[noreturn]] void ThrowSystemError(int err_code,
+	const char *err_text = nullptr);
+API_UTILITY [[noreturn]] void ThrowSystemError(const std::string &err_text);
+API_UTILITY [[noreturn]] void ThrowSystemError(const char *err_text = nullptr);
 // ////////////////////////////////////////////////////////////////////////////
 
 } // namespace Utility

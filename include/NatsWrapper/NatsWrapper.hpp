@@ -1,0 +1,83 @@
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+// MLB NatsWrapper Library Include File
+// ////////////////////////////////////////////////////////////////////////////
+/*
+   File Name         :  NatsWrapper.hpp
+
+   File Description  :  Include file for the NatsWrapper library.
+
+   Revision History  :  2024-08-17 --- Creation.
+                           Michael L. Brock
+
+      Copyright Michael L. Brock 2024.
+      Distributed under the Boost Software License, Version 1.0.
+      (See accompanying file LICENSE_1_0.txt or copy at
+      http://www.boost.org/LICENSE_1_0.txt)
+
+*/
+// ////////////////////////////////////////////////////////////////////////////
+
+#ifndef HH__MLB__NatsWrapper__NatsWrapper_hpp__HH
+
+#define HH__MLB__NatsWrapper__NatsWrapper_hpp__HH 1
+
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+/**
+   \file NatsWrapper.hpp
+
+   \brief   Main include file for the NatsWrapper library.
+*/
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+// Required include files...
+// ////////////////////////////////////////////////////////////////////////////
+
+#include <NatsWrapper/NatsExceptionStatus.hpp>
+
+// ////////////////////////////////////////////////////////////////////////////
+
+namespace MLB {
+
+namespace NatsWrapper {
+
+// ////////////////////////////////////////////////////////////////////////////
+#define NatsWrapper_THROW_STRING_NAME(method_name)						\
+	{																					\
+		std::ostringstream INTERNAL_error_text;							\
+		INTERNAL_error_text << "Invocation of '" << method_name <<	\
+			"()' failed";															\
+		throw NatsExceptionStatus(INTERNAL_error_text.str());			\
+	}
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
+#define NatsWrapper_THROW_IF_NOT_OK(method_name, method_args)						\
+	{																									\
+		natsStatus INTERNAL_nats_error_code = method_name method_args ;			\
+		if (INTERNAL_nats_error_code != NATS_OK) {										\
+			throw NatsExceptionStatus(INTERNAL_nats_error_code, #method_name);	\
+		}																								\
+	}
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
+#define NatsWrapper_THROW_IF_NOT_OK_OR_TIMEOUT(method_name, method_args)		\
+	{																									\
+		natsStatus INTERNAL_nats_error_code = method_name method_args ;			\
+		if ((INTERNAL_nats_error_code != NATS_OK) &&										\
+			 (INTERNAL_nats_error_code != NATS_TIMEOUT)) {								\
+			throw NatsExceptionStatus(INTERNAL_nats_error_code, #method_name);	\
+		}																								\
+	}
+// ////////////////////////////////////////////////////////////////////////////
+
+} // namespace NatsWrapper
+
+} // namespace MLB
+
+#endif // #ifndef HH__MLB__NatsWrapper__NatsWrapper_hpp__HH
+

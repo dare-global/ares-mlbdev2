@@ -37,10 +37,9 @@
 // ////////////////////////////////////////////////////////////////////////////
 
 #include <Utility/ParseNumericString.hpp>
-//#include <Utility/ReadFile.hpp>
 #include <Utility/StringCompareIgnoreCase.hpp>
-//#include <Utility/StringTrim.hpp>
 
+#include <cstdint>
 #include <functional>
 #include <map>
 #include <string>
@@ -71,7 +70,9 @@ template <typename ConfigHolder> using ParseCfgItemMapI =
 template <typename DatumType>
 	void ParseCfgItemDatum(const std::string &src, DatumType &dst)
 {
-	 ParseNumericString(src, dst, true);
+	// IMPL NOTE: Unlike atoi() and atof(), does nothing with empty strings.
+	if (!src.empty())
+		ParseNumericString(src, dst, true);
 }
 // ////////////////////////////////////////////////////////////////////////////
 

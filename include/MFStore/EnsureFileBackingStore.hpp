@@ -1,0 +1,66 @@
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+// MLB MFStore Library Include File
+// ////////////////////////////////////////////////////////////////////////////
+/*
+   File Name         :  EnsureFileBackingStore.hpp
+
+   File Description  :  Include file for the EnsureFileBackingStore()
+                        functions.
+
+   Revision History  :  2021-02-14 --- Creation.
+                           Michael L. Brock
+
+      Copyright Michael L. Brock 2021 - 2024.
+      Distributed under the Boost Software License, Version 1.0.
+      (See accompanying file LICENSE_1_0.txt or copy at
+      http://www.boost.org/LICENSE_1_0.txt)
+
+*/
+// ////////////////////////////////////////////////////////////////////////////
+
+#ifndef HH__MLB__MFStore__EnsureFileBackingStore_hpp__HH
+
+#define HH__MLB__MFStore__EnsureFileBackingStore_hpp__HH 1
+
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+/**
+   \file EnsureFileBackingStore.hpp
+
+   \brief   Prototypes for the EnsureFileBackingStore() functions.
+*/
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+// Required include files...
+// ////////////////////////////////////////////////////////////////////////////
+
+#include <MFStore/MFStoreControl.hpp>
+
+// ////////////////////////////////////////////////////////////////////////////
+
+namespace MLB {
+
+namespace MFStore {
+
+// ////////////////////////////////////////////////////////////////////////////
+void EnsureFileBackingStore(MFStoreFileHandle file_handle,
+	MFStoreOff store_offset, MFStoreLen store_length);
+void EnsureFileBackingStore(const char *file_name,
+	MFStoreFileHandle file_handle, MFStoreOff store_offset,
+	MFStoreLen store_length);
+void EnsureFileBackingStore(const std::string &file_name,
+	MFStoreFileHandle file_handle, MFStoreOff store_offset,
+	MFStoreLen store_length);
+void EnsureFileBackingStore(MFStoreControl &mfstore_ctl,
+	MFStoreOff store_offset, MFStoreLen store_length);
+// ////////////////////////////////////////////////////////////////////////////
+
+} // namespace MFStore
+
+} // namespace MLB
+
+#endif // #ifndef HH__MLB__MFStore__EnsureFileBackingStore_hpp__HH
+

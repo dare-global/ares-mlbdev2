@@ -82,12 +82,14 @@ API_UTILITY std::string  GetHostName();
 API_UTILITY char        *GetHostName(char *host_name,
 	std::size_t host_name_length);
 
+API_UTILITY std::string  GetHostNameShort();
 API_UTILITY std::string  GetHostNameCanonical();
 
-API_UTILITY void SetHostName(const std::string &host_name);
-API_UTILITY void SetHostName(const char *host_name);
+API_UTILITY void         SetHostName(const std::string &host_name);
+API_UTILITY void         SetHostName(const char *host_name);
 
-API_UTILITY std::string ConvertHostNameToCanonical(
+API_UTILITY std::string  ConvertHostNameToShort(const std::string &host_name);
+API_UTILITY std::string  ConvertHostNameToCanonical(
 	const std::string &host_name);
 // ////////////////////////////////////////////////////////////////////////////
 

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\include\mbcompat.h" />
+    <ClInclude Include="..\..\..\..\include\Utility\AnyToString.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ArgCheck.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\CheckCmdLineArgs.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\Compare_timespec.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\Compare_timeval.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\CriticalEventHandler.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\CurrentPath.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\DemangleCppName.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\EmitterCommentCpp.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\EmitterSep.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\EmitterTab.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\EnvElement.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ExceptionRethrow.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\FloatingPointSupport.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\GetCmdLineArg.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\GetCmdLineArgRegex.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\GetCmdLineHelp.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\GetEnvironment.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\GetSystemErrorCode.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\GranularRound.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\HostName.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\IntegralValueMaxLength.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\IoCharInfo.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\IsEolChar.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\Ita2ToAscii.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\MapUtf8ToAscii.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\MemICmp.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\nstrcat.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\nstrcpy.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\NumericSupport.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\PageSize.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ParseCfgFile.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ParseCfgItem.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ParseCsv.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ParseNumericString.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\PathMetaChar.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\PathNameCanonicalizeSlashes.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\PathNameGetDirectory.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\PathNameGetExtension.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\PathNameGetFileName.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\PathNameSlash.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ProcessId.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ReadFile.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ResolveCmdLineArg.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ResourceLimits.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\RsrcUsage.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\Sleep.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StrICmp.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StringCharsToOneChar.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StringCompareIgnoreCase.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StringJoin.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StringLowerCase.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StringOneSpace.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StringPadLeft.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StringPadRight.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StringSplit.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StringTrim.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StringTrimLeft.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StringTrimRight.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StringUpperCase.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StringZeroFill.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\StrNICmp.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ThreadId.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ThrowErrno.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ThrowSystemError.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\TimeSpec.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\TimeSupport.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\TimeT.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\TimeTM.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\TimeVal.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ToStreamErrno.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ToStreamSystemError.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ToString.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ToStringErrno.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ToStringRadix.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ToStringSystemError.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\UniqueId.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\UserName.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\Utility.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ValueToStringRadix.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\ValueTraits.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\VersionNumber.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\XLateEscapeChars.hpp" />
+    <ClInclude Include="..\..\..\..\include\Utility\XLateToHuman.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Utility\CheckCmdLineArgs.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\CriticalEventHandler.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\CurrentPath.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\DemangleCppName.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\EnvElement.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\GetCmdLineArg.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\GetCmdLineArgRegex.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\GetCmdLineHelp.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\GetEnvironment.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\GetSystemErrorCode.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\HostName.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\IoCharInfo.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\Ita2ToAscii.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\MapUtf8ToAscii.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\MemICmp.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\nstrcat.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\nstrcpy.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\PageSize.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\ParseCfgFile.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\ParseCfgItem.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\ParseCsv.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\PathMetaChar.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\PathNameCanonicalizeSlashes.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\PathNameGetDirectory.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\PathNameGetExtension.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\PathNameGetFileName.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\PathNameSlash.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\ProcessId.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\ReadFile.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\ResolveCmdLineArg.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\ResourceLimits.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\RsrcUsage.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\Sleep.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\StrICmp.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\StringCharsToOneChar.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\StringCompareIgnoreCase.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\StringLowerCase.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\StringOneSpace.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\StringPadLeft.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\StringPadRight.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\StringSplit.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\StringTrim.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\StringTrimLeft.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\StringTrimRight.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\StringUpperCase.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\StrNICmp.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\ThreadId.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\ThrowErrno.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\ThrowSystemError.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\TimeSpec.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\TimeSupport.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\TimeT.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\TimeTM.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\TimeVal.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\ToStreamErrno.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\ToStreamSystemError.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\ToStringErrno.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\ToStringSystemError.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\UniqueId.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\UserName.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\VersionNumber.cpp" />
+    <ClCompile Include="..\..\..\..\Utility\XLateEscapeChars.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{b2168613-5645-4aae-95e9-fee22a415c20}</ProjectGuid>
+    <RootNamespace>Utility</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\MlbDev.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\MlbDev.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\MlbDev.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\MlbDev.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(MlbDevVal_AllInc);$(AdditionalIncludeDirectories);..\..\..\..\include\</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <AdditionalOptions>/wd5045 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(MlbDevVal_AllInc);$(AdditionalIncludeDirectories);..\..\..\..\include\</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <AdditionalOptions>/wd5045 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(MlbDevVal_AllInc);$(AdditionalIncludeDirectories);..\..\..\..\include\</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <AdditionalOptions>/wd5045 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(MlbDevVal_AllInc);$(AdditionalIncludeDirectories);..\..\..\..\include\</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <AdditionalOptions>/wd5045 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

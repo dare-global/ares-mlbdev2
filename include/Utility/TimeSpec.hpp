@@ -42,18 +42,7 @@
 
 #include <Utility/TimeVal.hpp>
 
-#include <string>
-
-#if defined(_MSC_VER)
-# if (_MSC_VER < 1900)
-struct timespec {
-   time_t tv_sec;
-   long   tv_nsec;
-};
-# endif // # if (_MSC_VER < 1900)
-#else
-# include <unistd.h>
-#endif // # if defined(_MSC_VER)
+#include <Utility/Compare_timespec.hpp>
 
 // ////////////////////////////////////////////////////////////////////////////
 
@@ -76,14 +65,40 @@ struct API_UTILITY TimeSpec : public timespec {
 	explicit TimeSpec(const std::string &in_date);
 	~TimeSpec();
 
-	bool operator <  (const TimeSpec &other) const;
-	bool operator >  (const TimeSpec &other) const;
-	bool operator <= (const TimeSpec &other) const;
-	bool operator >= (const TimeSpec &other) const;
-	bool operator == (const TimeSpec &other) const;
-	bool operator != (const TimeSpec &other) const;
+#if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
+	constexpr auto operator <=> (const TimeSpec &other) const = default;
+	constexpr bool operator ==  (const TimeSpec &other) const = default;
+#else
+	constexpr bool operator <  (const TimeSpec &other) const
+	{
+		return(Compare(*this, other) <  0);
+	}
+	constexpr bool operator >  (const TimeSpec &other) const
+	{
+		return(Compare(*this, other) >  0);
+	}
+	constexpr bool operator <= (const TimeSpec &other) const
+	{
+		return(Compare(*this, other) <= 0);
+	}
+	constexpr bool operator >= (const TimeSpec &other) const
+	{
+		return(Compare(*this, other) >= 0);
+	}
+	constexpr bool operator == (const TimeSpec &other) const
+	{
+		return(Compare(*this, other) == 0);
+	}
+	constexpr bool operator != (const TimeSpec &other) const
+	{
+		return(Compare(*this, other) != 0);
+	}
+#endif // #if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
 
-	int  Compare(const TimeSpec &other) const;
+	constexpr int Compare(const TimeSpec &other) const
+	{
+		return(Compare(*this, other));
+	}
 
 	TimeSpec &SetToNow();
 	TimeSpec &SetToMinimumValue();
@@ -121,6 +136,9 @@ struct API_UTILITY TimeSpec : public timespec {
 	TimeVal ToTimeVal() const;
 
 	unsigned long long ToTicks() const;
+	unsigned long long ToSeconds() const;
+	unsigned long long ToMilliseconds() const;
+	unsigned long long ToMicroseconds() const;
 	unsigned long long ToNanoseconds() const;
 
 	double GetDouble() const;
@@ -159,12 +177,27 @@ struct API_UTILITY TimeSpec : public timespec {
 
 	static TimeSpec FromString(const std::string &in_date);
 	static TimeSpec FromString(const char *in_date);
+	static TimeSpec FromSeconds(unsigned long long secs);
+	static TimeSpec FromMilliseconds(unsigned long long msecs);
+	static TimeSpec FromMicroseconds(unsigned long long usecs);
 	static TimeSpec FromNanoseconds(unsigned long long nsecs);
 
 	static TimeSpec Now();
 
+	static constexpr int Compare(const TimeSpec &lhs, const TimeSpec &rhs)
+	{
+		return(
+			((int) (lhs.tv_sec  > rhs.tv_sec)  ?  1 :
+					((lhs.tv_sec  < rhs.tv_sec)  ? -1 :
+					((lhs.tv_nsec > rhs.tv_nsec) ?  1 :
+					((lhs.tv_nsec < rhs.tv_nsec) ? -1 : 0)))));
+	}
+
 	//	Used to support a C-style interface...
-	static int      Compare(const TimeSpec *lhs, const TimeSpec *rhs);
+	static constexpr int Compare(const TimeSpec *lhs, const TimeSpec *rhs)
+	{
+		return(Compare(*lhs, *rhs));
+	}
 
 	static TimeSpec GetMinimumValue();
 	static TimeSpec GetMaximumValue();

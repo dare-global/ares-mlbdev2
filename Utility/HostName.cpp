@@ -28,6 +28,7 @@
 
 #include <Utility/HostName.hpp>
 
+#include <Utility/StringCharsToOneChar.hpp>
 #include <Utility/StringLowerCase.hpp>
 #include <Utility/StringTrim.hpp>
 #include <Utility/ThrowErrno.hpp>
@@ -82,6 +83,13 @@ char *GetHostName(char *host_name, std::size_t host_name_length)
 // ////////////////////////////////////////////////////////////////////////////
 
 // ////////////////////////////////////////////////////////////////////////////
+std::string GetHostNameShort()
+{
+	return(ConvertHostNameToShort(GetHostName()));
+}
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
 std::string GetHostNameCanonical()
 {
 	return(ConvertHostNameToCanonical(GetHostName()));
@@ -111,15 +119,31 @@ void SetHostName(const char *host_name)
 // ////////////////////////////////////////////////////////////////////////////
 
 // ////////////////////////////////////////////////////////////////////////////
-std::string ConvertHostNameToCanonical(const std::string &host_name)
+std::string ConvertHostNameToShort(const std::string &host_name)
 {
-	std::string            tmp_host_name = host_name;
-	std::string::size_type dot_index     = tmp_host_name.find_first_of('.');
+	std::string tmp_host_name = ConvertHostNameToCanonical(host_name);
+   std::size_t dot_index     = tmp_host_name.find_first_of('.');
 
 	if (dot_index != std::string::npos)
 		tmp_host_name.erase(dot_index);
 
-	return(LowerCase(Trim(tmp_host_name)));
+	return(tmp_host_name);
+}
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
+std::string ConvertHostNameToCanonical(const std::string &host_name)
+{
+	std::string tmp_host_name = LowerCase(
+		MultipleCharsToOneChar(Trim(host_name, ". \t\r\n\v\f"), ".", '.'));
+
+	for (const auto &src_char : tmp_host_name) {
+		if ((!::isalnum(src_char)) && (src_char != '-') && (src_char != '.'))
+			return(tmp_host_name.erase(
+				static_cast<std::size_t>(&src_char - tmp_host_name.c_str())));
+	}
+
+	return(tmp_host_name);
 }
 // ////////////////////////////////////////////////////////////////////////////
 
@@ -129,17 +153,64 @@ std::string ConvertHostNameToCanonical(const std::string &host_name)
 
 #ifdef TEST_MAIN
 
+#include <Utility/EmitterSep.hpp>
+
 #include <iostream>
 
 using namespace MLB::Utility;
 
+namespace {
+
 // ////////////////////////////////////////////////////////////////////////////
-int main()
+void TEST_RunTest(const char *src)
+{
+	std::cout << EmitterSep('-');
+
+	std::cout
+		<< "Input Host            : " << src                             << '\n'
+		<< "Input Host Short      : " << ConvertHostNameToShort(src)     << '\n'
+		<< "Input Host Canonical  : " << ConvertHostNameToCanonical(src) << '\n'
+			;
+}
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
+void TEST_RunInternalTest()
+{
+	TEST_RunTest("hey.ho.ho.01");
+	TEST_RunTest("hey.ho-ho.02");
+	TEST_RunTest("hey.ho_ho.03");
+	TEST_RunTest("hey.ho.ho.04@SomethingElse.com");
+	TEST_RunTest("hey.ho.ho.05 Following A Space");
+	TEST_RunTest(".hey.ho.ho.06.");
+	TEST_RunTest("..hey.ho.ho.07..");
+	TEST_RunTest("..hey...ho...ho...08..");
+	TEST_RunTest(". . . ... . . .");
+}
+// ////////////////////////////////////////////////////////////////////////////
+
+} // Anonymous namespace
+
+// ////////////////////////////////////////////////////////////////////////////
+int main(int argc, char **argv)
 {
 	int return_code = EXIT_SUCCESS;
 
 	try {
-		std::cout << "GetHostName(): " << GetHostName() << std::endl;
+		std::cout << EmitterSep('=');
+		std::cout
+			<< "Actual Host Information"                            << '\n'
+			<< "------ ---- -----------"                            << '\n'
+			<< "GetHostName()         : " << GetHostName()          << '\n'
+			<< "GetHostNameShort()    : " << GetHostNameShort()     << '\n'
+			<< "GetHostNameCanonical(): " << GetHostNameCanonical() << std::endl;
+		if (argc > 1) {
+			for (int arg_idx = 1; arg_idx < argc; ++arg_idx)
+				TEST_RunTest(argv[arg_idx]);
+		}
+		else
+			TEST_RunInternalTest();
+		std::cout << EmitterSep('=') << '\n';
 	}
 	catch (const std::exception &except) {
 		std::cout << std::endl;
