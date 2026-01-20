@@ -38,7 +38,7 @@
 
 #include <NatsWrapper/NatsWrapper.hpp>
 
-#include <nats.h>
+#include <nats/nats.h>
 
 #include <string>
 
