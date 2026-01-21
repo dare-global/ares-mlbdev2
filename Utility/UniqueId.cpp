@@ -34,6 +34,7 @@
 # include <string.h>
 #endif // #ifdef __GNUC__
 
+#include <boost/version.hpp>
 #include <boost/random.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
@@ -57,7 +58,11 @@ UniqueId::UniqueId(bool generate_uuid_flag)
 	if (generate_uuid_flag)
 		id_ = GetSystemUUID();
 	else
+#if BOOST_VERSION >= 109000
+		id_ = boost::uuids::nil_uuid();
+#else
 		memset(&id_, '\0', sizeof(id_));
+#endif
 }
 // ////////////////////////////////////////////////////////////////////////////
 

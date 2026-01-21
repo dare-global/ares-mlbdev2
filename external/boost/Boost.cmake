@@ -1,9 +1,17 @@
 # #############################################################################
 # Boost.cmake - Download Boost from ares-external
 # #############################################################################
+# Set BOOST_VERSION env var to override (e.g., BOOST_VERSION=1.90.0)
 
 set(BOOST_PACKAGE_NAME "boost")
-set(BOOST_VERSION "1.90.0")
+
+# Allow BOOST_VERSION override via environment variable, default to 1.83.0
+if(DEFINED ENV{BOOST_VERSION})
+    set(BOOST_VERSION "$ENV{BOOST_VERSION}")
+else()
+    set(BOOST_VERSION "1.83.0")
+endif()
+
 set(BOOST_NAME_VERSION "${BOOST_PACKAGE_NAME}-${BOOST_VERSION}")
 
 # Download and extract from ares-external
