@@ -79,8 +79,9 @@ target_include_directories(Utility
 )
 
 # Add Boost include directories if using external Boost
+# Use BUILD_INTERFACE to avoid polluting installed package with build paths
 if(Boost_FOUND AND Boost_INCLUDE_DIRS)
-    target_include_directories(Utility PUBLIC ${Boost_INCLUDE_DIRS})
+    target_include_directories(Utility PUBLIC $<BUILD_INTERFACE:${Boost_INCLUDE_DIRS}>)
 endif()
 
 target_link_libraries(Utility
@@ -108,7 +109,6 @@ set_target_properties(Utility PROPERTIES
 
 # Installation
 install(TARGETS Utility
-    EXPORT MlbDev2Targets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

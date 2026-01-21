@@ -33,3 +33,17 @@
 
 # IDE files
 .idea/
+
+# CMake build output
+/build/
+/build-*/
+/install/
+/archive/
+
+# External dependencies (fetched via sparse checkout or downloaded)
+/external/algo-utils/
+/external/downloads/
+
+# MASCaPS build output (legacy)
+/TargetPlatform/
+/BuildResults.*.log

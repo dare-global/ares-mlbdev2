@@ -33,11 +33,24 @@ endif()
 
 # #############################################################################
 
+# Version format: YYYY.mm.dd
+string(TIMESTAMP MLBDEV2_VERSION "%Y.%m.%d")
+
 project(MlbDev2
-    VERSION 1.0.0
+    VERSION ${MLBDEV2_VERSION}
     DESCRIPTION "MLB Old C++ Development Redux"
     LANGUAGES CXX
 )
+
+# #############################################################################
+# Build Options and External Dependencies
+# #############################################################################
+
+# Build configuration (compiler detection, OS detection, etc.)
+include(cmake/BuildOptions.cmake)
+
+# External dependencies from ares-external (Boost, NATS)
+include(external/External.cmake)
 
 # #############################################################################
 # C++ Standard Configuration
@@ -96,86 +109,25 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 find_package(Threads REQUIRED)
 
-# Boost - Accept external paths from parent project (e.g., ares-external)
-# Priority: BOOST_INCLUDE_DIR/BOOST_LIBRARY_DIR > BOOST_ROOT > find_package
-if(BOOST_INCLUDE_DIR AND BOOST_LIBRARY_DIR)
-    # Use externally provided Boost paths (e.g., from ares-external)
-    message(STATUS "Using externally provided Boost:")
-    message(STATUS "  Include: ${BOOST_INCLUDE_DIR}")
-    message(STATUS "  Library: ${BOOST_LIBRARY_DIR}")
-    set(Boost_FOUND TRUE)
-    set(Boost_INCLUDE_DIRS ${BOOST_INCLUDE_DIR})
-    set(Boost_LIBRARY_DIRS ${BOOST_LIBRARY_DIR})
-    
-    # Find individual Boost libraries
-    foreach(BOOST_LIB filesystem date_time thread regex system chrono atomic)
-        find_library(Boost_${BOOST_LIB}_LIBRARY
-            NAMES boost_${BOOST_LIB}
-            PATHS ${BOOST_LIBRARY_DIR}
-            NO_DEFAULT_PATH
-        )
-        if(Boost_${BOOST_LIB}_LIBRARY)
-            list(APPEND Boost_LIBRARIES ${Boost_${BOOST_LIB}_LIBRARY})
-            message(STATUS "  Found boost_${BOOST_LIB}: ${Boost_${BOOST_LIB}_LIBRARY}")
-        endif()
-    endforeach()
-elseif(BOOST_ROOT)
-    # Use BOOST_ROOT to find Boost
-    message(STATUS "Using BOOST_ROOT: ${BOOST_ROOT}")
-    set(BOOST_INCLUDE_DIR ${BOOST_ROOT})
-    set(BOOST_LIBRARY_DIR ${BOOST_ROOT}/lib)
-    set(Boost_FOUND TRUE)
-    set(Boost_INCLUDE_DIRS ${BOOST_INCLUDE_DIR})
-    set(Boost_LIBRARY_DIRS ${BOOST_LIBRARY_DIR})
-    
-    foreach(BOOST_LIB filesystem date_time thread regex system chrono atomic)
-        find_library(Boost_${BOOST_LIB}_LIBRARY
-            NAMES boost_${BOOST_LIB}
-            PATHS ${BOOST_LIBRARY_DIR}
-            NO_DEFAULT_PATH
-        )
-        if(Boost_${BOOST_LIB}_LIBRARY)
-            list(APPEND Boost_LIBRARIES ${Boost_${BOOST_LIB}_LIBRARY})
-        endif()
-    endforeach()
-else()
-    # Fall back to system Boost via find_package
-    find_package(Boost COMPONENTS filesystem date_time thread regex system chrono atomic)
-endif()
-
-# OpenSSL
-find_package(OpenSSL)
-
-# Protobuf
-find_package(Protobuf)
-
-# NATS C Client (optional - for NatsWrapper)
-# Users can set NATS_ROOT to point to the nats.c installation
-if(DEFINED ENV{NATS_ROOT})
-    set(NATS_ROOT $ENV{NATS_ROOT})
-endif()
-
-if(NATS_ROOT)
-    set(NATS_INCLUDE_DIR "${NATS_ROOT}/src")
-    set(NATS_LIBRARY_DIR "${NATS_ROOT}/build/lib")
-    find_library(NATS_LIBRARY
-        NAMES nats_static nats
-        PATHS ${NATS_LIBRARY_DIR}
+# Boost - configured via external/boost/Boost.cmake (from ares-external)
+# Find individual Boost libraries in the downloaded package
+foreach(BOOST_LIB filesystem date_time thread regex system chrono atomic interprocess)
+    find_library(Boost_${BOOST_LIB}_LIBRARY
+        NAMES boost_${BOOST_LIB}
+        PATHS ${BOOST_LIBRARY_DIR}
         NO_DEFAULT_PATH
     )
-    if(NATS_LIBRARY)
-        set(NATS_FOUND TRUE)
-        message(STATUS "Found NATS: ${NATS_LIBRARY}")
+    if(Boost_${BOOST_LIB}_LIBRARY)
+        list(APPEND Boost_LIBRARIES ${Boost_${BOOST_LIB}_LIBRARY})
     endif()
-else()
-    # Try to find system-installed nats
-    find_library(NATS_LIBRARY NAMES nats_static nats)
-    find_path(NATS_INCLUDE_DIR NAMES nats/nats.h nats.h)
-    if(NATS_LIBRARY AND NATS_INCLUDE_DIR)
-        set(NATS_FOUND TRUE)
-        message(STATUS "Found NATS: ${NATS_LIBRARY}")
-    endif()
-endif()
+endforeach()
+
+# OpenSSL - uses system OpenSSL (required for NatsWrapper TLS support)
+# Install via: apt install libssl-dev (Ubuntu/Debian)
+find_package(OpenSSL)
+
+# NATS - configured via external/nats.c/Nats.c.cmake (from ares-external)
+# Only loaded when EXCLUDE_NATSWRAPPER is not set
 
 # #############################################################################
 # Include Directories
@@ -192,11 +144,15 @@ add_subdirectory(Utility)
 add_subdirectory(Logger)
 add_subdirectory(MFStore)
 
-if(NATS_FOUND)
-    add_subdirectory(NatsWrapper)
+if(DEFINED ENV{EXCLUDE_NATSWRAPPER} OR EXCLUDE_NATSWRAPPER)
+    message(STATUS "NatsWrapper excluded via EXCLUDE_NATSWRAPPER")
 else()
-    message(STATUS "NATS not found - skipping NatsWrapper library")
-    message(STATUS "  Set NATS_ROOT to point to your nats.c installation")
+    if(NOT NATS_FOUND)
+        message(FATAL_ERROR "NATS not found - NatsWrapper requires nats.c\n"
+            "  Set NATS_ROOT to point to your nats.c installation, or\n"
+            "  Set EXCLUDE_NATSWRAPPER=1 to skip NatsWrapper")
+    endif()
+    add_subdirectory(NatsWrapper)
 endif()
 
 # #############################################################################
@@ -210,35 +166,6 @@ install(DIRECTORY include/
     FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h"
 )
 
-# #############################################################################
-# Package Configuration
-# #############################################################################
-
-include(CMakePackageConfigHelpers)
-
-write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/MlbDev2ConfigVersion.cmake"
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY SameMajorVersion
-)
-
-configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/MlbDev2Config.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/MlbDev2Config.cmake"
-    @ONLY
-)
-
-install(EXPORT MlbDev2Targets
-    FILE MlbDev2Targets.cmake
-    NAMESPACE MlbDev2::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/MlbDev2
-)
-
-install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/MlbDev2Config.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/MlbDev2ConfigVersion.cmake"
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/MlbDev2
-)
 
 # #############################################################################
 # Summary
@@ -251,21 +178,54 @@ message(STATUS "  C++ Standard:     ${CMAKE_CXX_STANDARD}")
 message(STATUS "  Build Type:       ${CMAKE_BUILD_TYPE}")
 message(STATUS "  Install Prefix:   ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "")
+set(NATSWRAPPER_ENABLED TRUE)
+if(DEFINED ENV{EXCLUDE_NATSWRAPPER} OR EXCLUDE_NATSWRAPPER)
+    set(NATSWRAPPER_ENABLED FALSE)
+endif()
+
 message(STATUS "Libraries:")
 message(STATUS "  Utility:          Yes")
 message(STATUS "  Logger:           Yes")
 message(STATUS "  MFStore:          Yes")
-message(STATUS "  NatsWrapper:      ${NATS_FOUND}")
+message(STATUS "  NatsWrapper:      ${NATSWRAPPER_ENABLED}")
 message(STATUS "")
-message(STATUS "Dependencies:")
-if(BOOST_INCLUDE_DIR AND BOOST_LIBRARY_DIR)
-    message(STATUS "  Boost:            ${Boost_FOUND} (external: ${BOOST_INCLUDE_DIR})")
-elseif(BOOST_ROOT)
-    message(STATUS "  Boost:            ${Boost_FOUND} (BOOST_ROOT: ${BOOST_ROOT})")
-else()
-    message(STATUS "  Boost:            ${Boost_FOUND} (system)")
+message(STATUS "Dependencies (from ares-external):")
+message(STATUS "  Boost:            ${BOOST_VERSION} (${BOOST_LIBRARY_DIR})")
+if(NATSWRAPPER_ENABLED)
+    message(STATUS "  NATS:             ${NATS_VERSION} (${NATS_LIBRARY_DIR})")
 endif()
-message(STATUS "  OpenSSL:          ${OPENSSL_FOUND}")
-message(STATUS "  Protobuf:         ${Protobuf_FOUND}")
-message(STATUS "  NATS:             ${NATS_FOUND}")
 message(STATUS "")
+message(STATUS "System Dependencies:")
+message(STATUS "  OpenSSL:          ${OPENSSL_FOUND} (system)")
+message(STATUS "  Threads:          Yes (pthread)")
+message(STATUS "")
+
+# #############################################################################
+# Packaging - Create distributable tarball
+# #############################################################################
+#
+# Archive naming: ares-mlbdev2-<version>-boost<boost_version>-<compiler><ver>-<build>-<os>-<os_ver>.tar.gz
+# Example: ares-mlbdev2-1.0.0-boost1.83.0-gcc14-release-ubuntu-24.04.tar.gz
+#
+# Usage: cmake --build <build_dir> --target package
+#        or: make package (after install)
+
+# Package name includes boost version for dependency tracking
+string(REPLACE "." "" BOOST_VERSION_NODOTS "${BOOST_VERSION}")
+set(MLBDEV2_ARCHIVE_NAME "ares-mlbdev2-${PROJECT_VERSION}-boost${BOOST_VERSION}-${MLBDEV2_COMPILER}${MLBDEV2_COMPILER_VERSION}-release-${MLBDEV2_OS_NAME}-${MLBDEV2_OS_VERSION}")
+
+# CPack configuration
+set(CPACK_PACKAGE_NAME "ares-mlbdev2")
+set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+set(CPACK_PACKAGE_FILE_NAME "${MLBDEV2_ARCHIVE_NAME}")
+set(CPACK_GENERATOR "TGZ")
+set(CPACK_SOURCE_GENERATOR "")
+set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY ON)
+
+# Output archive to archive/, staging files to install prefix
+set(CPACK_PACKAGE_DIRECTORY "${CMAKE_INSTALL_PREFIX}")
+set(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_SOURCE_DIR}/archive")
+
+include(CPack)
+
+message(STATUS "Package archive: ${CPACK_PACKAGE_DIRECTORY}/${MLBDEV2_ARCHIVE_NAME}.tar.gz")
