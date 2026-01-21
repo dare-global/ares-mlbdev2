@@ -37,15 +37,8 @@ cmake --build . -j$(nproc)
 | Option | Description | Default |
 |--------|-------------|---------|
 | `CMAKE_BUILD_TYPE` | `Debug` or `Release` | `Release` |
-| `EXCLUDE_NATSWRAPPER` | Skip building NatsWrapper | Not set |
 | `MLBDEV2_OS_NAME` | OS name for package downloads | Auto-detected |
 | `MLBDEV2_OS_VERSION` | OS version for package downloads | Auto-detected |
-
-### Building Without NatsWrapper
-
-```bash
-EXCLUDE_NATSWRAPPER=1 ./scripts/build.sh gcc
-```
 
 ### Output
 
@@ -53,7 +46,7 @@ Libraries are built to `build/lib/`:
 - `libUtility.a`
 - `libLogger.a`
 - `libMFStore.a`
-- `libNatsWrapper.a` (unless excluded)
+- `libNatsWrapper.a`
 
 ### Installation
 
@@ -70,7 +63,7 @@ cmake --build build/gcc-release --target package
 
 Package naming: `ares-mlbdev2-<version>-boost<boost_version>-<compiler><ver>-release-<os>-<os_ver>.tar.gz`
 
-Example: `ares-mlbdev2-1.0.0-boost1.83.0-gcc14-release-ubuntu-24.04.tar.gz`
+Example: `ares-mlbdev2-2026.01.21-boost1.83.0-gcc14-release-ubuntu-24.04.tar.gz`
 
 ---
 
@@ -105,7 +98,7 @@ Install these before building:
 | **Utility** | Core utilities: string handling, time support, command-line parsing, file I/O |
 | **Logger** | Logging framework with console and file handlers |
 | **MFStore** | Memory-mapped file store |
-| **NatsWrapper** | C++ wrapper for NATS messaging (optional) |
+| **NatsWrapper** | C++ wrapper for NATS messaging |
 
 ## Requirements Summary
 
@@ -129,6 +122,16 @@ build.sh gcc                    # Build with GCC
 build.sh gcc --clean            # Clean build
 upload_package.sh --list        # List packages in archive/
 upload_package.sh --help        # See upload options
+```
+
+### Uploading to GitHub Releases
+
+```bash
+# Create package
+cmake --build build/gcc-release --target package
+
+# Upload (specify repo explicitly for now)
+upload_package.sh ares-mlbdev2-2026.01.21 boost1.83.0 -c gcc -v 14 --repo=dare-global/ares-mlbdev2
 ```
 
 ## License

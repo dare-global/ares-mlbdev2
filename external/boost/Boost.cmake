@@ -3,14 +3,14 @@
 # #############################################################################
 
 set(BOOST_PACKAGE_NAME "boost")
-set(BOOST_VERSION "1.83.0")
+set(BOOST_VERSION "1.90.0")
 set(BOOST_NAME_VERSION "${BOOST_PACKAGE_NAME}-${BOOST_VERSION}")
 
 # Download and extract from ares-external
 get_from_ares_external(
     ${BOOST_PACKAGE_NAME}
     ${BOOST_VERSION}
-    "4aba6fa89d386ac9b68dc7c380f6891200a21892d547990f4c4b9f0b3ae46343"
+    ""
     BOOST_INSTALL_DIR
 )
 

@@ -18,10 +18,8 @@ include(${CMAKE_SOURCE_DIR}/cmake/DownloadAndExtract.cmake)
 include(${EXTERNAL_SOURCE_DIR}/boost/Boost.cmake)
 
 # ==============================================================================
-# NATS (optional - only if NatsWrapper is being built)
+# NATS
 # ==============================================================================
-if(NOT DEFINED ENV{EXCLUDE_NATSWRAPPER} AND NOT EXCLUDE_NATSWRAPPER)
-    include(${EXTERNAL_SOURCE_DIR}/nats.c/Nats.c.cmake)
-endif()
+include(${EXTERNAL_SOURCE_DIR}/nats.c/Nats.c.cmake)
 
 message(STATUS "External dependencies configured")

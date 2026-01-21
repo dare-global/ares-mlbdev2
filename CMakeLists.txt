@@ -127,7 +127,6 @@ endforeach()
 find_package(OpenSSL)
 
 # NATS - configured via external/nats.c/Nats.c.cmake (from ares-external)
-# Only loaded when EXCLUDE_NATSWRAPPER is not set
 
 # #############################################################################
 # Include Directories
@@ -143,17 +142,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 add_subdirectory(Utility)
 add_subdirectory(Logger)
 add_subdirectory(MFStore)
-
-if(DEFINED ENV{EXCLUDE_NATSWRAPPER} OR EXCLUDE_NATSWRAPPER)
-    message(STATUS "NatsWrapper excluded via EXCLUDE_NATSWRAPPER")
-else()
-    if(NOT NATS_FOUND)
-        message(FATAL_ERROR "NATS not found - NatsWrapper requires nats.c\n"
-            "  Set NATS_ROOT to point to your nats.c installation, or\n"
-            "  Set EXCLUDE_NATSWRAPPER=1 to skip NatsWrapper")
-    endif()
-    add_subdirectory(NatsWrapper)
-endif()
+add_subdirectory(NatsWrapper)
 
 # #############################################################################
 # Installation
@@ -178,22 +167,15 @@ message(STATUS "  C++ Standard:     ${CMAKE_CXX_STANDARD}")
 message(STATUS "  Build Type:       ${CMAKE_BUILD_TYPE}")
 message(STATUS "  Install Prefix:   ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "")
-set(NATSWRAPPER_ENABLED TRUE)
-if(DEFINED ENV{EXCLUDE_NATSWRAPPER} OR EXCLUDE_NATSWRAPPER)
-    set(NATSWRAPPER_ENABLED FALSE)
-endif()
-
 message(STATUS "Libraries:")
 message(STATUS "  Utility:          Yes")
 message(STATUS "  Logger:           Yes")
 message(STATUS "  MFStore:          Yes")
-message(STATUS "  NatsWrapper:      ${NATSWRAPPER_ENABLED}")
+message(STATUS "  NatsWrapper:      Yes")
 message(STATUS "")
 message(STATUS "Dependencies (from ares-external):")
 message(STATUS "  Boost:            ${BOOST_VERSION} (${BOOST_LIBRARY_DIR})")
-if(NATSWRAPPER_ENABLED)
-    message(STATUS "  NATS:             ${NATS_VERSION} (${NATS_LIBRARY_DIR})")
-endif()
+message(STATUS "  NATS:             ${NATS_VERSION} (${NATS_LIBRARY_DIR})")
 message(STATUS "")
 message(STATUS "System Dependencies:")
 message(STATUS "  OpenSSL:          ${OPENSSL_FOUND} (system)")
