@@ -7,19 +7,20 @@
 #
 # #############################################################################
 
-set(EXTERNAL_SOURCE_DIR "${CMAKE_SOURCE_DIR}/external")
+# Downloads go to external/downloads/ to keep them separate from config files
+set(EXTERNAL_SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/downloads")
 
-# Include download utilities
-include(${CMAKE_SOURCE_DIR}/cmake/DownloadAndExtract.cmake)
+# Include AresExternal from algo-utils (includes DownloadAndExtract.cmake)
+include(AresExternal)
 
 # ==============================================================================
 # Boost
 # ==============================================================================
-include(${EXTERNAL_SOURCE_DIR}/boost/Boost.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/boost/Boost.cmake)
 
 # ==============================================================================
 # NATS
 # ==============================================================================
-include(${EXTERNAL_SOURCE_DIR}/nats.c/Nats.c.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/nats.c/Nats.c.cmake)
 
 message(STATUS "External dependencies configured")

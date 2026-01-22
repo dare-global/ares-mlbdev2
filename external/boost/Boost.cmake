@@ -15,12 +15,14 @@ endif()
 set(BOOST_NAME_VERSION "${BOOST_PACKAGE_NAME}-${BOOST_VERSION}")
 
 # Download and extract from ares-external
-get_from_ares_external(
+# get_from_ares_external_repo returns the archive directory (parent of extracted folder)
+get_from_ares_external_repo(
     ${BOOST_PACKAGE_NAME}
     ${BOOST_VERSION}
     ""
-    BOOST_INSTALL_DIR
+    BOOST_ARCHIVE_DIR
 )
+set(BOOST_INSTALL_DIR "${BOOST_ARCHIVE_DIR}/${BOOST_NAME_VERSION}")
 
 # Export paths for use by the build
 set(BOOST_INCLUDE_DIR "${BOOST_INSTALL_DIR}" CACHE PATH "Boost include directory" FORCE)

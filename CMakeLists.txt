@@ -46,8 +46,15 @@ project(MlbDev2
 # Build Options and External Dependencies
 # #############################################################################
 
-# Build configuration (compiler detection, OS detection, etc.)
-include(cmake/BuildOptions.cmake)
+# Use algo-utils cmake modules if available
+# Set ALGO_UTILS_CMAKE env var via: source ./scripts/source-algo-utils.sh
+if(DEFINED ENV{ALGO_UTILS_CMAKE} AND EXISTS "$ENV{ALGO_UTILS_CMAKE}/BuildOptions.cmake")
+    set(CMAKE_MODULE_PATH "$ENV{ALGO_UTILS_CMAKE}" ${CMAKE_MODULE_PATH})
+    set(PROJECT_PREFIX "MLBDEV2")
+    include(BuildOptions)
+else()
+    message(FATAL_ERROR "algo-utils cmake modules not found. Run: source ./scripts/source-algo-utils.sh")
+endif()
 
 # External dependencies from ares-external (Boost, NATS)
 include(external/External.cmake)
