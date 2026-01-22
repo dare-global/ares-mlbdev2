@@ -8,7 +8,7 @@ MLB Old C++ Development Redux
 
 ```bash
 # Fetch algo-utils and set PATH
-source ./scripts/source-ares-scripts.sh
+source ./scripts/source-algo-utils.sh
 
 # Build with GCC (recommended)
 dev.sh build gcc
@@ -158,7 +158,7 @@ Install these before building:
 
 | Script | Description |
 |--------|-------------|
-| `scripts/source-ares-scripts.sh` | Fetches ares scripts and sets PATH (must be sourced) |
+| `scripts/source-algo-utils.sh` | Fetches algo-utils (scripts + cmake) and sets PATH (must be sourced) |
 
 ### Using dev.sh
 
