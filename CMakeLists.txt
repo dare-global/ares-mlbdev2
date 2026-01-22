@@ -182,32 +182,3 @@ message(STATUS "  OpenSSL:          ${OPENSSL_FOUND} (system)")
 message(STATUS "  Threads:          Yes (pthread)")
 message(STATUS "")
 
-# #############################################################################
-# Packaging - Create distributable tarball
-# #############################################################################
-#
-# Archive naming: ares-mlbdev2-<version>-boost<boost_version>-<compiler><ver>-<build>-<os>-<os_ver>.tar.gz
-# Example: ares-mlbdev2-1.0.0-boost1.83.0-gcc14-release-ubuntu-24.04.tar.gz
-#
-# Usage: cmake --build <build_dir> --target package
-#        or: make package (after install)
-
-# Package name includes boost version for dependency tracking
-string(REPLACE "." "" BOOST_VERSION_NODOTS "${BOOST_VERSION}")
-set(MLBDEV2_ARCHIVE_NAME "ares-mlbdev2-${PROJECT_VERSION}-boost${BOOST_VERSION}-${MLBDEV2_COMPILER}${MLBDEV2_COMPILER_VERSION}-release-${MLBDEV2_OS_NAME}-${MLBDEV2_OS_VERSION}")
-
-# CPack configuration
-set(CPACK_PACKAGE_NAME "ares-mlbdev2")
-set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
-set(CPACK_PACKAGE_FILE_NAME "${MLBDEV2_ARCHIVE_NAME}")
-set(CPACK_GENERATOR "TGZ")
-set(CPACK_SOURCE_GENERATOR "")
-set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY ON)
-
-# Output archive to archive/, staging files to install prefix
-set(CPACK_PACKAGE_DIRECTORY "${CMAKE_INSTALL_PREFIX}")
-set(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_SOURCE_DIR}/archive")
-
-include(CPack)
-
-message(STATUS "Package archive: ${CPACK_PACKAGE_DIRECTORY}/${MLBDEV2_ARCHIVE_NAME}.tar.gz")
