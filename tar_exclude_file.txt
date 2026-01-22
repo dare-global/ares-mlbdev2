@@ -1,0 +1,3 @@
+# Exclude CPack temporary directories
+_CPack_Packages
+_CPack_Packages/*
