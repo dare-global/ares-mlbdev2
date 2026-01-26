@@ -22,6 +22,7 @@ target_include_directories(MFStore
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+# Note: Boost.Interprocess is header-only, included via Boost::headers from Utility
 target_link_libraries(MFStore
     PUBLIC
         Logger

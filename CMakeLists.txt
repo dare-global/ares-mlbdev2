@@ -46,18 +46,21 @@ project(MlbDev2
 # Build Options and External Dependencies
 # #############################################################################
 
-# Use algo-utils cmake modules if available
-# Set ALGO_UTILS_CMAKE env var via: source ./scripts/source-algo-utils.sh
-if(DEFINED ENV{ALGO_UTILS_CMAKE} AND EXISTS "$ENV{ALGO_UTILS_CMAKE}/BuildOptions.cmake")
-    set(CMAKE_MODULE_PATH "$ENV{ALGO_UTILS_CMAKE}" ${CMAKE_MODULE_PATH})
-    set(PROJECT_PREFIX "MLBDEV2")
-    include(BuildOptions)
-else()
-    message(FATAL_ERROR "algo-utils cmake modules not found. Run: source ./scripts/source-algo-utils.sh")
+# algo-utils cmake modules (fetched via scripts/source-algo-utils.sh)
+set(ALGO_UTILS_CMAKE "${CMAKE_SOURCE_DIR}/external/algo-utils/cmake")
+if(NOT EXISTS "${ALGO_UTILS_CMAKE}")
+    message(FATAL_ERROR 
+        "algo-utils cmake modules not found!\n"
+        "Run: source scripts/source-algo-utils.sh\n"
+        "Expected: ${ALGO_UTILS_CMAKE}")
 endif()
 
+set(CMAKE_MODULE_PATH "${ALGO_UTILS_CMAKE}" ${CMAKE_MODULE_PATH})
+set(PROJECT_PREFIX "MLBDEV2")
+include(BuildOptions)
+
 # External dependencies from ares-external (Boost, NATS)
-include(external/External.cmake)
+include(cmake/External.cmake)
 
 # #############################################################################
 # C++ Standard Configuration
@@ -116,24 +119,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 find_package(Threads REQUIRED)
 
-# Boost - configured via external/boost/Boost.cmake (from ares-external)
-# Find individual Boost libraries in the downloaded package
-foreach(BOOST_LIB filesystem date_time thread regex system chrono atomic interprocess)
-    find_library(Boost_${BOOST_LIB}_LIBRARY
-        NAMES boost_${BOOST_LIB}
-        PATHS ${BOOST_LIBRARY_DIR}
-        NO_DEFAULT_PATH
-    )
-    if(Boost_${BOOST_LIB}_LIBRARY)
-        list(APPEND Boost_LIBRARIES ${Boost_${BOOST_LIB}_LIBRARY})
-    endif()
-endforeach()
+# Boost - configured via External.cmake (algo-utils + additional components)
+# NATS - configured via External.cmake (algo-utils)
 
 # OpenSSL - uses system OpenSSL (required for NatsWrapper TLS support)
 # Install via: apt install libssl-dev (Ubuntu/Debian)
 find_package(OpenSSL)
-
-# NATS - configured via external/nats.c/Nats.c.cmake (from ares-external)
 
 # #############################################################################
 # Include Directories
@@ -162,6 +153,11 @@ install(DIRECTORY include/
     FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h"
 )
 
+# Install CMake config file for find_package() support
+install(FILES cmake/ares-mlbdev2-config.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ares-mlbdev2
+)
+
 
 # #############################################################################
 # Summary
@@ -180,9 +176,9 @@ message(STATUS "  Logger:           Yes")
 message(STATUS "  MFStore:          Yes")
 message(STATUS "  NatsWrapper:      Yes")
 message(STATUS "")
-message(STATUS "Dependencies (from ares-external):")
-message(STATUS "  Boost:            ${BOOST_VERSION} (${BOOST_LIBRARY_DIR})")
-message(STATUS "  NATS:             ${NATS_VERSION} (${NATS_LIBRARY_DIR})")
+message(STATUS "Dependencies (from ares-external via algo-utils):")
+message(STATUS "  Boost:            ${BOOST_VERSION} (${BOOST_ROOT})")
+message(STATUS "  NATS:             ${NATS_VERSION} (${NATS_ROOT})")
 message(STATUS "")
 message(STATUS "System Dependencies:")
 message(STATUS "  OpenSSL:          ${OPENSSL_FOUND} (system)")

@@ -78,28 +78,21 @@ target_include_directories(Utility
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-# Add Boost include directories if using external Boost
-# Use BUILD_INTERFACE to avoid polluting installed package with build paths
-if(Boost_FOUND AND Boost_INCLUDE_DIRS)
-    target_include_directories(Utility PUBLIC $<BUILD_INTERFACE:${Boost_INCLUDE_DIRS}>)
-endif()
-
+# Link dependencies
+# Boost targets provided by algo-utils/cmake/external/Boost.cmake
+# Note: Boost::system is header-only since Boost 1.69, use Boost::headers
 target_link_libraries(Utility
     PUBLIC
         Threads::Threads
         ${CMAKE_DL_LIBS}
+        Boost::headers
+        Boost::filesystem
+        Boost::regex
+        Boost::thread
+        Boost::chrono
+        Boost::date_time
+        Boost::atomic
 )
-
-# Link Boost libraries - handle both external and find_package cases
-if(Boost_FOUND)
-    if(Boost_LIBRARIES)
-        # External Boost (from ares-external or BOOST_ROOT)
-        target_link_libraries(Utility PUBLIC ${Boost_LIBRARIES})
-    elseif(TARGET Boost::filesystem)
-        # find_package Boost with imported targets
-        target_link_libraries(Utility PUBLIC Boost::filesystem Boost::regex Boost::system)
-    endif()
-endif()
 
 set_target_properties(Utility PROPERTIES
     VERSION ${PROJECT_VERSION}

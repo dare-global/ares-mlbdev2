@@ -173,6 +173,32 @@ dev.sh package                # Create package
 dev.sh release --help         # Show release options
 ```
 
+## Using as a Dependency
+
+ares-mlbdev2 ships with a CMake config file that handles all transitive dependencies (Boost, NATS, OpenSSL).
+
+### In Your CMakeLists.txt
+
+```cmake
+# Point to the installed package and dependencies
+set(ares-mlbdev2_DIR "/path/to/ares-mlbdev2/lib/cmake/ares-mlbdev2")
+set(Boost_DIR "/path/to/boost/lib/cmake/Boost")
+set(cnats_DIR "/path/to/nats.c/lib/cmake/cnats")
+
+find_package(ares-mlbdev2 REQUIRED CONFIG)
+target_link_libraries(myapp PRIVATE ares::mlbdev2)
+```
+
+### What Gets Linked
+
+The `ares::mlbdev2` target includes:
+- All ares-mlbdev2 libraries (MFStore, Logger, NatsWrapper, Utility)
+- Boost components (thread, filesystem, chrono, date_time, regex, atomic)
+- Boost headers (includes system, interprocess - header-only)
+- NATS C client (cnats::nats_static, includes OpenSSL)
+
+Static link order is handled correctly - no undefined symbol errors.
+
 ## License
 
 Distributed under the Boost Software License, Version 1.0.

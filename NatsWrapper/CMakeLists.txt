@@ -21,19 +21,15 @@ target_include_directories(NatsWrapper
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
-        ${NATS_INCLUDE_DIR}
 )
 
+# Link NATS - cnats::nats_static includes OpenSSL in its interface
 target_link_libraries(NatsWrapper
     PUBLIC
         Utility
     PRIVATE
-        ${NATS_LIBRARY}
+        cnats::nats_static
 )
-
-if(OPENSSL_FOUND)
-    target_link_libraries(NatsWrapper PRIVATE OpenSSL::SSL OpenSSL::Crypto)
-endif()
 
 set_target_properties(NatsWrapper PROPERTIES
     VERSION ${PROJECT_VERSION}
