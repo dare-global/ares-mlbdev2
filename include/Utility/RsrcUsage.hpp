@@ -42,10 +42,9 @@
 
 #include <Utility/TimeSpec.hpp>
 
+#include <compare>
 #include <limits>
 #include <vector>
-
-#include <boost/config.hpp>
 
 // ////////////////////////////////////////////////////////////////////////////
 
@@ -191,14 +190,8 @@ struct API_UTILITY RsrcUsage {
 	RsrcUsage & operator = (const RsrcUsage &other);
 	void swap(RsrcUsage &other);
 
-#if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
-	constexpr auto operator <=> (const RsrcUsage &other) const = default;
-	constexpr bool operator ==  (const RsrcUsage &other) const = default;
-#endif // #if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
-
-	bool operator < (const RsrcUsage &other) const;
-
-	int Compare(const RsrcUsage &other) const;
+	constexpr auto operator<=>(const RsrcUsage &other) const = default;
+	constexpr bool operator==(const RsrcUsage &other) const = default;
 
 	void GetRsrcUsage(ProcessId selector);
 	void GetRsrcUsage();

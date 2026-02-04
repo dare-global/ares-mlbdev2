@@ -51,12 +51,12 @@ const std::size_t  UTF8To7BitAsciiCount  =
 	sizeof(UTF8To7BitAsciiList) / sizeof(UTF8To7BitAsciiList[0]);
 //	----------------------------------------------------------------------------
 const Utf8MapEntry UTF8To8BitAsciiList[] = {
-	Utf8MapEntry("\xE2\x80\x98", "‘"),	// U+2018 (LEFT SINGLE QUOTATION MARK)
-	Utf8MapEntry("\xE2\x80\x99", "’"),	// U+2019 (RIGHT SINGLE QUOTATION MARK)
-	Utf8MapEntry("\xE2\x80\x9C", "“"),	// U+201C (LEFT DOUBLE QUOTATION MARK)
-	Utf8MapEntry("\xE2\x80\x9D", "”"),	// U+201D (RIGHTT DOUBLE QUOTATION MARK)
-	Utf8MapEntry("\xE2\x80\xA2", "•"),	// U+2022 (BULLET)
-	Utf8MapEntry("\xE2\x80\x93", "–")	// U+2013 (EN DASH)
+	Utf8MapEntry("\xE2\x80\x98", "\x91"),	// U+2018 (LEFT SINGLE QUOTATION MARK)
+	Utf8MapEntry("\xE2\x80\x99", "\x92"),	// U+2019 (RIGHT SINGLE QUOTATION MARK)
+	Utf8MapEntry("\xE2\x80\x9C", "\x93"),	// U+201C (LEFT DOUBLE QUOTATION MARK)
+	Utf8MapEntry("\xE2\x80\x9D", "\x94"),	// U+201D (RIGHTT DOUBLE QUOTATION MARK)
+	Utf8MapEntry("\xE2\x80\xA2", "\x95"),	// U+2022 (BULLET)
+	Utf8MapEntry("\xE2\x80\x93", "\x96")	// U+2013 (EN DASH)
 };
 const std::size_t  UTF8To8BitAsciiCount  =
 	sizeof(UTF8To8BitAsciiList) / sizeof(UTF8To8BitAsciiList[0]);

@@ -40,10 +40,9 @@
 
 #include <Utility/TimeSupport.hpp>
 
+#include <compare>
 #include <ostream>
 #include <string>
-
-#include <boost/config.hpp>
 
 // ////////////////////////////////////////////////////////////////////////////
 
@@ -66,35 +65,8 @@ struct API_UTILITY TimeT {
 
 	~TimeT();
 
-#if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
-	constexpr auto operator <=> (const TimeT &other) const = default;
-	constexpr bool operator ==  (const TimeT &other) const = default;
-#else
-	constexpr bool operator <  (const TimeT &other) const
-	{
-		return(Compare(*this, other) <  0);
-	}
-	constexpr bool operator >  (const TimeT &other) const
-	{
-		return(Compare(*this, other) >  0);
-	}
-	constexpr bool operator <= (const TimeT &other) const
-	{
-		return(Compare(*this, other) <= 0);
-	}
-	constexpr bool operator >= (const TimeT &other) const
-	{
-		return(Compare(*this, other) >= 0);
-	}
-	constexpr bool operator == (const TimeT &other) const
-	{
-		return(Compare(*this, other) == 0);
-	}
-	constexpr bool operator != (const TimeT &other) const
-	{
-		return(Compare(*this, other) != 0);
-	}
-#endif // #if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
+	constexpr auto operator<=>(const TimeT &other) const = default;
+	constexpr bool operator==(const TimeT &other) const = default;
 
 	constexpr int Compare(const TimeT &other) const
 	{

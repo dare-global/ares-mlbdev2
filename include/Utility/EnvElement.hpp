@@ -40,11 +40,10 @@
 
 #include <Utility/Utility.hpp>
 
+#include <compare>
 #include <set>
 #include <string>
 #include <vector>
-
-#include <boost/config.hpp>
 
 // ////////////////////////////////////////////////////////////////////////////
 
@@ -59,12 +58,8 @@ struct API_UTILITY EnvElement {
 	         EnvElement(const std::string &env_name,
 		const std::string &env_value);
 
-#if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
-	constexpr auto operator <=> (const EnvElement &other) const = default;
-	constexpr bool operator ==  (const EnvElement &other) const = default;
-#else
-	bool operator < (const EnvElement &other) const;
-#endif // #if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
+	constexpr auto operator<=>(const EnvElement &other) const = default;
+	constexpr bool operator==(const EnvElement &other) const = default;
 
 	std::string &ToString(std::string &out_string) const;
 	std::string  ToString() const;

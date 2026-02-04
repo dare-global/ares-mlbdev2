@@ -58,10 +58,11 @@
    we've defined the manifest constant 'MLB_LOGGER_DO_NOT_USE_THREAD_LOCAL'.
 */
 // ////////////////////////////////////////////////////////////////////////////
+// C++23 required - thread_local is always available
 #ifndef MLB_LOGGER_DO_NOT_USE_THREAD_LOCAL
-# if defined(BOOST_NO_CXX11_THREAD_LOCAL) || (BOOST_CXX_VERSION < 201103)
+# if defined(BOOST_NO_CXX11_THREAD_LOCAL)
 #  define MLB_LOGGER_DO_NOT_USE_THREAD_LOCAL    1
-# endif // # if defined(BOOST_NO_CXX11_THREAD_LOCAL) || (BOOST_CXX_VERSION < 201103)
+# endif // # if defined(BOOST_NO_CXX11_THREAD_LOCAL)
 #endif // #ifndef MLB_LOGGER_DO_NOT_USE_THREAD_LOCAL
 // ////////////////////////////////////////////////////////////////////////////
 

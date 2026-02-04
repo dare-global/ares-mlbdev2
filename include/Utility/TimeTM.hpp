@@ -40,9 +40,8 @@
 
 #include <Utility/TimeSupport.hpp>
 
+#include <compare>
 #include <string>
-
-#include <boost/config.hpp>
 
 // ////////////////////////////////////////////////////////////////////////////
 
@@ -62,35 +61,17 @@ struct API_UTILITY TimeTM : public tm {
 	explicit TimeTM(const tm &in_time);
 	~TimeTM();
 
-#if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
-	constexpr auto operator <=> (const TimeTM &other) const = default;
-	constexpr bool operator ==  (const TimeTM &other) const = default;
-#else
-	constexpr bool operator <  (const TimeTM &other) const
+	constexpr std::strong_ordering operator<=>(const TimeTM &other) const
 	{
-		return(Compare(*this, other) <  0);
+		const int cmp = Compare(*this, other);
+		return (cmp < 0) ? std::strong_ordering::less :
+		       (cmp > 0) ? std::strong_ordering::greater :
+		                   std::strong_ordering::equal;
 	}
-	constexpr bool operator >  (const TimeTM &other) const
+	constexpr bool operator==(const TimeTM &other) const
 	{
-		return(Compare(*this, other) >  0);
+		return Compare(*this, other) == 0;
 	}
-	constexpr bool operator <= (const TimeTM &other) const
-	{
-		return(Compare(*this, other) <= 0);
-	}
-	constexpr bool operator >= (const TimeTM &other) const
-	{
-		return(Compare(*this, other) >= 0);
-	}
-	constexpr bool operator == (const TimeTM &other) const
-	{
-		return(Compare(*this, other) == 0);
-	}
-	constexpr bool operator != (const TimeTM &other) const
-	{
-		return(Compare(*this, other) != 0);
-	}
-#endif // #if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
 
 	constexpr int Compare(const TimeTM &other) const
 	{

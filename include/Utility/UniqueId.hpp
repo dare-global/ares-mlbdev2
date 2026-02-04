@@ -44,6 +44,7 @@
 #include <Utility/IntToString.hpp>
 #endif // #if 0
 
+#include <compare>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -97,23 +98,8 @@ struct API_UTILITY UniqueId {
 	explicit UniqueId(const char *unique_id);
 	explicit UniqueId(const std::string &unique_id);
 
-#if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
-	constexpr auto operator <=> (const UniqueId &other) const = default;
-	constexpr bool operator ==  (const UniqueId &other) const = default;
-#else
-	bool operator  < (const UniqueId &other) const
-	{
-		return(this->id_ < other.id_);
-	}
-	bool operator == (const UniqueId &other) const
-	{
-		return(this->id_ == other.id_);
-	}
-	bool operator != (const UniqueId &other) const
-	{
-		return(this->id_ != other.id_);
-	}
-#endif // #if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
+	constexpr auto operator<=>(const UniqueId &other) const = default;
+	constexpr bool operator==(const UniqueId &other) const = default;
 
 	std::ostream    &ToStream(std::ostream &o_str = std::cout) const;
 	std::istream    &FromStream(std::istream &i_str = std::cin);

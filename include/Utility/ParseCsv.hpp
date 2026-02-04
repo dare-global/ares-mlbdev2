@@ -154,7 +154,7 @@ public:
 private:
 	ParseCsvPosition position_;
 	std::string_view src_line_;
-	std::size_t      current_offset_;
+	[[maybe_unused]] std::size_t current_offset_;
 	bool             at_end_flag_;
 };
 // ////////////////////////////////////////////////////////////////////////////

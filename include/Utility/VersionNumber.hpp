@@ -44,11 +44,10 @@
 
 #include <Utility/Utility.hpp>
 
+#include <compare>
 #include <cstdint>
 #include <iostream>
 #include <string>
-
-#include <boost/config.hpp>
 
 // ////////////////////////////////////////////////////////////////////////////
 
@@ -91,35 +90,8 @@ struct API_UTILITY VersionNumber {
 	VersionNumber &SetToMinimumValue();
 	VersionNumber &SetToMaximumValue();
 
-#if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
-	constexpr auto operator <=> (const VersionNumber &other) const = default;
-	constexpr bool operator ==  (const VersionNumber &other) const = default;
-#else
-	constexpr bool operator <  (const VersionNumber &other) const
-	{
-		return(Compare(other) < 0);
-	}
-	constexpr bool operator >  (const VersionNumber &other) const
-	{
-		return(Compare(other) > 0);
-	}
-	constexpr bool operator <= (const VersionNumber &other) const
-	{
-		return(Compare(other) <= 0);
-	}
-	constexpr bool operator >= (const VersionNumber &other) const
-	{
-		return(Compare(other) >= 0);
-	}
-	constexpr bool operator == (const VersionNumber &other) const
-	{
-		return(Compare(other) == 0);
-	}
-	constexpr bool operator != (const VersionNumber &other) const
-	{
-		return(Compare(other) != 0);
-	}
-#endif // #if defined(BOOST_CXX_VERSION) && (BOOST_CXX_VERSION >= 201703L)
+	constexpr auto operator<=>(const VersionNumber &other) const = default;
+	constexpr bool operator==(const VersionNumber &other) const = default;
 
 	constexpr int Compare(const VersionNumber &other) const
 	{

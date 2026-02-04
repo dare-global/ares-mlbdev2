@@ -62,7 +62,7 @@
 	C4514: 'function': unreferenced inline function has been removed
 	C4548: expression before comma has no effect; expected expression
           with side-effect
-	C4571: informational: catch(…) semantics changed since Visual C++ 7.1;
+	C4571: informational: catch(...) semantics changed since Visual C++ 7.1;
           structured exceptions (SEH) are no longer caught
 	C4619: #pragma warning: there is no warning number 'number'
 	C4668: 'symbol' is not defined as a preprocessor macro, replacing with

@@ -97,6 +97,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         -Woverloaded-virtual
         -pthread
         -m64
+    )
+    add_link_options(
         -rdynamic
     )
     add_compile_definitions(
