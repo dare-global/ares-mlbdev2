@@ -58,12 +58,34 @@ public:
 
 	virtual ~NatsMsg();
 
+	static NatsMsg Create(const char *subject,
+		const void *data_ptr, std::size_t data_length,
+		const char *reply = nullptr);
+	static NatsMsg Create(const std::string &subject,
+		const std::string &data,
+		const std::string &reply = "");
+
 	const char *GetSubject() const;
 	const char *GetReply() const;
 	const char *GetData() const;
 	int         GetDataLength() const;
 
 	bool        IsNoResponders() const;
+
+	void        SetHeader(const char *key, const char *value);
+	void        SetHeader(const std::string &key, const std::string &value);
+
+	void        AddHeader(const char *key, const char *value);
+	void        AddHeader(const std::string &key, const std::string &value);
+
+	std::string GetHeader(const char *key) const;
+	std::string GetHeader(const std::string &key) const;
+
+	bool        HasHeader(const char *key) const;
+	bool        HasHeader(const std::string &key) const;
+
+	void        DeleteHeader(const char *key);
+	void        DeleteHeader(const std::string &key);
 
 	      natsMsg    *GetPtr();
 	const natsMsg    *GetPtr() const;
