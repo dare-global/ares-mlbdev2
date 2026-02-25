@@ -1,0 +1,22 @@
+---
+description: Manage plan lifecycle - archive completed plans to prevent stale plan accumulation
+alwaysApply: true
+---
+
+# Plan Lifecycle Management
+
+When a plan's todos are ALL completed (or cancelled), **archive it immediately** by moving the file:
+
+```bash
+mkdir -p ~/.cursor/plans/archive
+mv ~/.cursor/plans/{plan_file}.plan.md ~/.cursor/plans/archive/
+```
+
+Do this at the end of the same turn where the last todo is marked completed.
+
+## Rules
+
+1. **Always update todo statuses** in the plan frontmatter as you complete work. Don't leave stale `pending`/`in_progress` statuses.
+2. **Archive completed plans** -- don't leave them in `~/.cursor/plans/` where they resurface on reconnect.
+3. **Prefer workspace plans** (`.cursor/plans/` in the repo) over user-level plans (`~/.cursor/plans/`) for work tracked in git.
+4. **Duplicate detection** -- before creating a new plan, check if a similar one already exists. Don't create duplicates.

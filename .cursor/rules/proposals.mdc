@@ -1,0 +1,32 @@
+---
+description: Guidelines for creating proposal documents
+alwaysApply: true
+---
+
+# Proposal Documents
+
+When creating proposal documents (feature requests, design proposals, workflow improvements):
+
+## Location
+
+- **Always place proposals in the project root directory** (not in `docs/proposals/` or subdirectories)
+- Example: `/project-root/MyProposal.md`
+
+## Git Tracking
+
+- **Proposals should stay local** - do not commit to git
+- They are working documents meant for discussion, not version-controlled artifacts
+- If a proposal is accepted, the implementation gets committed, not the proposal itself
+
+## Naming
+
+- Use descriptive names with the target system/component
+- Example: `AlgoUtils-ReleaseWorkflow.md`, `RefDataService-CacheStrategy.md`
+
+## Cleanup After Acceptance
+
+When a proposal has been actioned (accepted and implemented):
+
+1. **Verify** the implementation is complete and committed
+2. **Delete** the proposal `.md` file from the project root
+3. Proposals are transient working documents -- once the work is done, the code is the source of truth
