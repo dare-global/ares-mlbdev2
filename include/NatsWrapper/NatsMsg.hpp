@@ -65,6 +65,11 @@ public:
 		const std::string &data,
 		const std::string &reply = "");
 
+	/// Wrap a raw natsMsg* received in a natsMsgHandler callback.
+	/// Takes ownership: the message will be destroyed when NatsMsg
+	/// goes out of scope. The caller must NOT call natsMsg_Destroy().
+	static NatsMsg FromRaw(natsMsg *msg);
+
 	const char *GetSubject() const;
 	const char *GetReply() const;
 	const char *GetData() const;

@@ -66,6 +66,20 @@ public:
 	void SetServers(const char **servers, std::size_t servers_count);
 	void SetServers(const std::vector<std::string> &servers);
 
+	void SetMaxReconnect(int max_reconnect);
+	void SetReconnectWait(int64_t reconnect_wait_ms);
+
+	void SetRetryOnFailedConnect(bool retry,
+		natsConnectionHandler connected_cb = nullptr,
+		void *closure = nullptr);
+
+	void SetErrorHandler(natsErrHandler err_handler, void *closure);
+	void SetClosedCB(natsConnectionHandler closed_cb, void *closure);
+	void SetDisconnectedCB(natsConnectionHandler disconnected_cb,
+		void *closure);
+	void SetReconnectedCB(natsConnectionHandler reconnected_cb,
+		void *closure);
+
 private:
 	std::shared_ptr<natsOptions> nats_options_sptr_;
 };

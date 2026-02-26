@@ -40,6 +40,7 @@
 
 #include <NatsWrapper/NatsSubscription.hpp>
 
+#include <expected>
 #include <string>
 
 // ////////////////////////////////////////////////////////////////////////////
@@ -83,6 +84,12 @@ public:
 
 	void PublishMsg(NatsMsg &msg);
 
+	std::expected<void, natsStatus> TryPublish(const char *subject_name,
+		const void *data_ptr, std::size_t data_length);
+	std::expected<void, natsStatus> TryPublish(const std::string &subject_name,
+		const void *data_ptr, std::size_t data_length);
+	std::expected<void, natsStatus> TryPublishMsg(NatsMsg &msg);
+
 	void PublishRequest(const char *send_subject, const char *reply_subject,
 		const void *data_ptr, std::size_t data_length);
 	void PublishRequest(const std::string &send_subject,
@@ -107,12 +114,17 @@ public:
 	NatsSubscription SubscribeSync(const char *subject_name);
 	NatsSubscription SubscribeSync(const std::string &subject_name);
 
-	static NatsConnection Connect(NatsOptions &nats_options);
+	natsConnStatus GetStatus() const;
+
+	static std::expected<NatsConnection, natsStatus> TryConnect(
+		NatsOptions &nats_options);
 	static NatsConnection ConnectTo(const char *urls, std::size_t urls_length);
 	static NatsConnection ConnectTo(const std::string &urls);
 	static NatsConnection ConnectTo(const char *urls);
 
 private:
+	NatsConnection(natsConnection *nats_conn);
+
 	std::shared_ptr<natsConnection> nats_connection_sptr_;
 };
 // ////////////////////////////////////////////////////////////////////////////

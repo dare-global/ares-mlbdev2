@@ -44,6 +44,16 @@ class NatsSubscription;
 // ////////////////////////////////////////////////////////////////////////////
 
 // ////////////////////////////////////////////////////////////////////////////
+// PRIVATE: Used by TryConnect()
+NatsConnection::NatsConnection(natsConnection *nats_conn)
+	:nats_connection_sptr_()
+{
+	if (nats_conn)
+		nats_connection_sptr_.reset(nats_conn, ::natsConnection_Destroy);
+}
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
 NatsConnection::NatsConnection(NatsOptions &nats_options)
 	:nats_connection_sptr_()
 {
@@ -220,6 +230,53 @@ void NatsConnection::PublishMsg(NatsMsg &msg)
 // ////////////////////////////////////////////////////////////////////////////
 
 // ////////////////////////////////////////////////////////////////////////////
+std::expected<void, natsStatus> NatsConnection::TryPublish(
+	const char *subject_name, const void *data_ptr, std::size_t data_length)
+{
+	MLB::Utility::ThrowIfNullOrEmpty(subject_name,
+		"The subject name on which data is to be published");
+
+	MLB::Utility::ThrowIfNull(data_ptr, "The pointer to data to be published");
+
+	if (data_length >
+		 static_cast<std::size_t>(std::numeric_limits<int>::max()))
+		throw std::invalid_argument("Length of the data to be published is "
+			"greater than the maximum permissible by the data type NATS uses to "
+			"specify the length of published data (" +
+			std::to_string(std::numeric_limits<int>::max()) + ").");
+
+	natsStatus s = ::natsConnection_Publish(GetPtr(), subject_name,
+		data_ptr, data_length);
+
+	if (s != NATS_OK)
+		return std::unexpected(s);
+
+	return {};
+}
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
+std::expected<void, natsStatus> NatsConnection::TryPublish(
+	const std::string &subject_name, const void *data_ptr,
+	std::size_t data_length)
+{
+	return TryPublish(subject_name.c_str(), data_ptr, data_length);
+}
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
+std::expected<void, natsStatus> NatsConnection::TryPublishMsg(NatsMsg &msg)
+{
+	natsStatus s = ::natsConnection_PublishMsg(GetPtr(), msg.GetPtrChecked());
+
+	if (s != NATS_OK)
+		return std::unexpected(s);
+
+	return {};
+}
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
 void NatsConnection::PublishRequest(const char *send_subject,
 	const char *reply_subject, const void *data_ptr, std::size_t data_length)
 {
@@ -352,6 +409,28 @@ NatsConnection NatsConnection::ConnectTo(const std::string &urls)
 NatsConnection NatsConnection::ConnectTo(const char *urls)
 {
 	return(NatsConnection(urls));
+}
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
+natsConnStatus NatsConnection::GetStatus() const
+{
+	return(::natsConnection_Status(nats_connection_sptr_.get()));
+}
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
+std::expected<NatsConnection, natsStatus> NatsConnection::TryConnect(
+	NatsOptions &nats_options)
+{
+	natsConnection *nats_conn = NULL;
+
+	natsStatus s = ::natsConnection_Connect(&nats_conn, nats_options.GetPtr());
+
+	if (s == NATS_OK || s == NATS_NOT_YET_CONNECTED)
+		return NatsConnection(nats_conn);
+
+	return std::unexpected(s);
 }
 // ////////////////////////////////////////////////////////////////////////////
 
