@@ -56,12 +56,23 @@ class NatsMsg
 public:
 	NatsMsg(NatsSubscription &nats_subs, int64_t time_out);
 
+	//	Constructs an outbound message carrying subject + payload. Needed for
+	//	publishing header-bearing messages (e.g. JetStream Nats-Msg-Id dedup),
+	//	which the receive-only ctors above cannot produce.
+	NatsMsg(const char *subject_name, const void *data_ptr,
+		std::size_t data_length);
+
 	virtual ~NatsMsg();
 
 	const char *GetSubject() const;
 	const char *GetReply() const;
 	const char *GetData() const;
 	int         GetDataLength() const;
+
+	//	Sets (or replaces) a header on this message. Wraps natsMsgHeader_Set.
+	//	NOTE: nats.c message headers are not thread-safe per message; build and
+	//	publish a NatsMsg on a single thread.
+	void        SetHeader(const char *key, const char *value);
 
 	bool        IsNoResponders() const;
 
