@@ -38,7 +38,7 @@
 
 #include <Utility/Utility.hpp>
 
-#include <nats.h>
+#include <nats/nats.h>
 
 #include <stdexcept>
 #include <string>
